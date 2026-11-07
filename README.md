@@ -13,11 +13,21 @@ Built for people and for AI agents: tables in the terminal, stable JSON when pip
 
 ## Install
 
+macOS / Linux:
+
 ```sh
-go install github.com/idarciooliveira/namecheap-cli/cmd/ncli@latest
+curl -fsSL https://raw.githubusercontent.com/idarciooliveira/namecheap-cli/main/install.sh | sh
 ```
 
-Or from source: `make install` (installs to `~/.local/bin`).
+Windows (PowerShell):
+
+```powershell
+irm https://raw.githubusercontent.com/idarciooliveira/namecheap-cli/main/install.ps1 | iex
+```
+
+The scripts download the latest [release](https://github.com/idarciooliveira/namecheap-cli/releases), verify its checksum and install to `~/.local/bin` (Windows: `%LOCALAPPDATA%\ncli\bin`, added to PATH). Pin a version with `NCLI_VERSION=v0.1.0`, or change the folder with `NCLI_INSTALL_DIR`.
+
+With Go: `go install github.com/idarciooliveira/namecheap-cli/cmd/ncli@latest`. From source: `make install`.
 
 ## Setup
 
