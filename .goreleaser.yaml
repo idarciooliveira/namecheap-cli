@@ -1,0 +1,60 @@
+version: 2
+
+project_name: ncli
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: ncli
+    main: ./cmd/ncli
+    binary: ncli
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X github.com/idarciooliveira/namecheap-cli/internal/cli.Version={{ .Version }}
+
+archives:
+  - id: ncli
+    name_template: "ncli_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^Merge "
+
+release:
+  github:
+    owner: idarciooliveira
+    name: namecheap-cli
+  footer: |
+    ## Install
+
+    macOS / Linux:
+    ```sh
+    curl -fsSL https://raw.githubusercontent.com/idarciooliveira/namecheap-cli/main/install.sh | sh
+    ```
+
+    Windows (PowerShell):
+    ```powershell
+    irm https://raw.githubusercontent.com/idarciooliveira/namecheap-cli/main/install.ps1 | iex
+    ```
+
+    Then run `ncli auth login`.
