@@ -5,6 +5,7 @@
 # Options (env vars):
 #   NCLI_VERSION      tag to install, e.g. v0.1.0 (default: latest)
 #   NCLI_INSTALL_DIR  where to put ncli.exe (default: %LOCALAPPDATA%\ncli\bin)
+#   NCLI_NO_PATH=1    don't add the folder to your user PATH
 
 function Install-Ncli {
     $ErrorActionPreference = 'Stop'
@@ -53,7 +54,7 @@ function Install-Ncli {
     }
 
     $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-    if (-not (($userPath -split ';') -contains $dir)) {
+    if (-not $env:NCLI_NO_PATH -and -not (($userPath -split ';') -contains $dir)) {
         $newPath = if ($userPath) { "$userPath;$dir" } else { $dir }
         [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
         Write-Host "Added $dir to your user PATH (open a new terminal to pick it up)."
